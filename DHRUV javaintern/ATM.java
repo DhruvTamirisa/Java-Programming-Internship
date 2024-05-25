@@ -1,78 +1,89 @@
 import java.util.Scanner;
 
-public class ATM {
-    private double balance;
-
-    public ATM(double initialBalance) {
-        balance = initialBalance;
-    }
-
-    public double checkBalance() {
-        return balance;
-    }
-
-    public void withdraw(double amount) {
-        if (amount > balance) {
-            System.out.println("Insufficient funds. Withdrawal cancelled.");
-        } else {
-            balance -= amount;
-            System.out.println("Withdrawal successful. Remaining balance: " + balance);
-        }
-    }
-
-    public void deposit(double amount) {
-        balance += amount;
-        System.out.println("Deposit successful. Current balance: " + balance);
-    }
-
-    public void transfer(double amount) {
-        if (amount > balance) {
-            System.out.println("Insufficient funds. Transfer cancelled.");
-        } else {
-            balance -= amount;
-            System.out.println("Transfer successful. Remaining balance: " + balance);
-        }
-    }
+public class ColourfulATMSimulator {
+    private static Scanner scanner = new Scanner(System.in);
+    private static double balance = 10000; // Initial balance, you can set this to any desired value
 
     public static void main(String[] args) {
-        ATM atm = new ATM(1000.0);
-        Scanner scanner = new Scanner(System.in);
+        System.out.println("Welcome to the Colourful ATM Simulator");
 
         while (true) {
-            System.out.println("ATM Simulator");
+            System.out.println("\nSelect an option:");
             System.out.println("1. Check Balance");
-            System.out.println("2. Withdraw");
-            System.out.println("3. Deposit");
-            System.out.println("4. Transfer");
+            System.out.println("2. Withdraw Cash");
+            System.out.println("3. Deposit Cash");
+            System.out.println("4. Transfer Funds");
             System.out.println("5. Exit");
             System.out.print("Enter your choice: ");
+            
             int choice = scanner.nextInt();
 
             switch (choice) {
                 case 1:
-                    System.out.println("Your balance is: " + atm.checkBalance());
+                    checkBalance();
                     break;
                 case 2:
-                    System.out.print("Enter amount to withdraw: ");
-                    double withdrawAmount = scanner.nextDouble();
-                    atm.withdraw(withdrawAmount);
+                    withdrawCash();
                     break;
                 case 3:
-                    System.out.print("Enter amount to deposit: ");
-                    double depositAmount = scanner.nextDouble();
-                    atm.deposit(depositAmount);
+                    depositCash();
                     break;
                 case 4:
-                    System.out.print("Enter amount to transfer: ");
-                    double transferAmount = scanner.nextDouble();
-                    atm.transfer(transferAmount);
+                    transferFunds();
                     break;
                 case 5:
-                    System.out.println("Thank you for using the ATM. Goodbye!");
+                    System.out.println("Thank you for using Colourful ATM Simulator!");
                     System.exit(0);
+                    break;
                 default:
-                    System.out.println("Invalid choice. Please try again.");
+                    System.out.println("Invalid choice. Please select again.");
             }
+        }
+    }
+
+    private static void checkBalance() {
+        System.out.println("Your current balance is: $" + balance);
+    }
+
+    private static void withdrawCash() {
+        System.out.print("Enter the amount to withdraw: $");
+        double amount = scanner.nextDouble();
+
+        if (amount > balance) {
+            System.out.println("Insufficient balance.");
+        } else {
+            balance -= amount;
+            System.out.println("$" + amount + " withdrawn successfully.");
+            System.out.println("Remaining balance: $" + balance);
+        }
+    }
+
+    private static void depositCash() {
+        System.out.print("Enter the amount to deposit: $");
+        double amount = scanner.nextDouble();
+
+        if (amount <= 0) {
+            System.out.println("Invalid amount.");
+        } else {
+            balance += amount;
+            System.out.println("$" + amount + " deposited successfully.");
+            System.out.println("New balance: $" + balance);
+        }
+    }
+
+    private static void transferFunds() {
+        System.out.print("Enter the amount to transfer: $");
+        double amount = scanner.nextDouble();
+
+        if (amount > balance) {
+            System.out.println("Insufficient balance.");
+        } else {
+            System.out.print("Enter the recipient's account number: ");
+            String accountNumber = scanner.next();
+            // Here you would implement the logic for transferring funds to another account
+            System.out.println("$" + amount + " transferred successfully to account number " + accountNumber);
+            balance -= amount;
+            System.out.println("Remaining balance: $" + balance);
         }
     }
 }
